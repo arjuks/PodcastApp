@@ -1,11 +1,18 @@
 package com.example.arjun.hw05;
 
+import android.net.Uri;
+
 /**
  * Created by arjun on 10/13/2015.
  */
-public class Podcast {
+public class Podcast  {
 
-    String title, description, date, img_url, duration, mp3_url;
+    String title;
+    String description;
+    String date;
+    String img_url;
+    String duration;
+    String mp3_url;
 
     public Podcast(String title, String description, String date, String img_url, String duration, String mp3_url) {
         this.title = title;
