@@ -30,19 +30,9 @@ import java.util.ArrayList;
 
                     return PodcastUtil.PodcastParser.parsePodcast(in);//data obtained is sent for parsing
                 }
-
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
+            } catch (IOException | SAXException e) {
                 e.printStackTrace();
             }
-
-
             return null;
         }
 

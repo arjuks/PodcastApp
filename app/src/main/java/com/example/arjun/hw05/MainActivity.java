@@ -36,9 +36,6 @@ ArrayList<Podcast> list = new ArrayList<>();
         // use a linear layout manager
         LinearLayoutManager llm = new LinearLayoutManager(MainActivity.this);
         rv.setLayoutManager(llm);
-
-
-
     }
 
     public class GetPodcastAsync extends AsyncTask<String, Void, ArrayList<Podcast>> {
@@ -58,13 +55,9 @@ ArrayList<Podcast> list = new ArrayList<>();
                 }
 
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (ProtocolException e) {
+            } catch (MalformedURLException | ProtocolException | SAXException e) {
                 e.printStackTrace();
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
                 e.printStackTrace();
             }
 
@@ -79,7 +72,7 @@ ArrayList<Podcast> list = new ArrayList<>();
                 Log.d("demo", result.toString());
                 //list.addAll(result);
                 RecyclerView rv = (RecyclerView)findViewById(R.id.rv);
-                MyAdapter adapter = new MyAdapter(result);
+                MyAdapter adapter = new MyAdapter(MainActivity.this, result);
 
                 rv.setAdapter(adapter);
             }

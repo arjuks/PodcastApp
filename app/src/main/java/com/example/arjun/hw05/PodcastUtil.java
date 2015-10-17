@@ -17,9 +17,7 @@ import java.util.ArrayList;
  */
 public class PodcastUtil {
 
-    static String title, description, pubDate,duration, enc_url;
-    static String img_url;
-
+    static String title, description, pubDate,duration, enc_url, img_url;
 
         static public class PodcastParser extends DefaultHandler {
             ArrayList<Podcast> podcastList;
