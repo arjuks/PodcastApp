@@ -1,5 +1,6 @@
 package com.example.arjun.hw05;
 
+import android.net.Uri;
 import android.util.Log;
 import android.util.Xml;
 
@@ -16,7 +17,9 @@ import java.util.ArrayList;
  */
 public class PodcastUtil {
 
-    static String title, description, pubDate,duration, img_url, enc_url;
+    static String title, description, pubDate,duration, enc_url;
+    static String img_url;
+
 
         static public class PodcastParser extends DefaultHandler {
             ArrayList<Podcast> podcastList;
@@ -42,7 +45,8 @@ public class PodcastUtil {
                 }
                 else if(localName.equals("image")) {
                     //pod.setImg_url(attributes.getValue("href"));
-                    img_url = attributes.getValue("href");
+                    img_url = (attributes.getValue("href"));
+
                 }
                 else if(localName.equals("enclosure")) {
                     //pod.setMp3_url(attributes.getValue("url"));
