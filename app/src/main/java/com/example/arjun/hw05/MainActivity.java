@@ -1,8 +1,10 @@
 package com.example.arjun.hw05;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -29,15 +31,22 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 
 ArrayList<Podcast> list = new ArrayList<>();
+
     ProgressDialog progressDialog;
     Boolean sw = true;
+    static RecyclerView rv;
+    static final String PODOBJ = "Podobj";
+
+    public static Context mContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mContext = getBaseContext();
 
-        RecyclerView rv = (RecyclerView)findViewById(R.id.rv);
+        rv = (RecyclerView)findViewById(R.id.rv);
         rv.setHasFixedSize(true);
 
         if (isConnectedOnline()) {
@@ -59,6 +68,10 @@ ArrayList<Podcast> list = new ArrayList<>();
             rv.setLayoutManager(glm);
         }
 
+    }
+
+    public static Context getContext() {
+        return mContext;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -137,6 +150,8 @@ ArrayList<Podcast> list = new ArrayList<>();
                     rv.setLayoutManager(llm);
                     MyAdapter adapter = new MyAdapter(result);
                     rv.setAdapter(adapter);
+
+
                 }
                 else {
                     RecyclerView rv = (RecyclerView)findViewById(R.id.rv);
@@ -170,5 +185,4 @@ ArrayList<Podcast> list = new ArrayList<>();
             return false;
         }
     }
-
 }

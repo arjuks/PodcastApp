@@ -1,6 +1,6 @@
 package com.example.arjun.hw05;
 
-import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -14,15 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +21,9 @@ import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PersonViewHolder> {
 
     List<Podcast> pod;
-    Context context;
+    final static int POD_CODE = 222;
+
+
 
     MyAdapter(List<Podcast> pod) {
         this.pod = pod;
@@ -42,12 +35,37 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PersonViewHolder> 
     Bitmap bmp;
 
 
+
     @Override
-    public PersonViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public PersonViewHolder onCreateViewHolder(ViewGroup viewGroup, final int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item, viewGroup, false);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //System.out.println(v.getTag(i));
+                int pos = MainActivity.rv.getChildPosition(v);
+                String title = pod.get(pos).getTitle();
+                Log.d("demo", "item clicked"+" "+title);
+                String desc = pod.get(pos).getDescription();
+                String date = pod.get(pos).getDate();
+                String duration = pod.get(pos).getDuration();
+                String img = pod.get(pos).getImg_url();
+                String mp3 = pod.get(pos).getMp3_url();
+
+                Podcast p = new Podcast(title,desc,date,img,duration,mp3);
+                Intent intent = new Intent(MainActivity.getContext(),PlayActivity.class);
+                intent.putExtra(MainActivity.PODOBJ, p);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                MainActivity.getContext().startActivity(intent);
+
+            }
+        });
         PersonViewHolder pvh = new PersonViewHolder(v);
         return pvh;
     }
+
+
 
     @Override
     public void onBindViewHolder(PersonViewHolder personViewHolder, int i) {
@@ -58,8 +76,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PersonViewHolder> 
         Uri uri = Uri.parse(pod.get(i).getImg_url());
         //personViewHolder.imgbtn.setImageURI(uri);
 
+
         personViewHolder.date.setText(date);
         String path = pod.get(i).getImg_url();
+
 
 //        Picasso.with(context.getApplicationContext()).load(path).into(personViewHolder.img);
 
@@ -69,7 +89,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PersonViewHolder> 
 
        // personViewHolder.img.setImageBitmap(bmp);
 
+
     }
+
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
@@ -95,8 +117,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PersonViewHolder> 
             date = (TextView) itemView.findViewById(R.id.Date);
             img = (ImageView) itemView.findViewById(R.id.imageView);
             imgbtn = (ImageButton) itemView.findViewById(R.id.imageButton);
+
         }
     }
+
 
 
 //    class GetImageWithParams extends AsyncTask<String, Integer, Bitmap> {
