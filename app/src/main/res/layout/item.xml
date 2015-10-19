@@ -31,8 +31,8 @@
         android:layout_height="75dp"
         android:id="@+id/imageView"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/Date"
-        android:layout_toStartOf="@+id/Date" />
+        android:layout_toLeftOf="@+id/imageButton"
+        android:layout_toStartOf="@+id/imageButton" />
 
     <ImageButton
         android:layout_width="60dp"
