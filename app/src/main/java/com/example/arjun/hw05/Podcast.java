@@ -25,9 +25,7 @@ public class Podcast implements Parcelable {
         this.mp3_url = mp3_url;
     }
 
-    public Podcast() {
-
-    }
+    public Podcast() {}
 
     public String getTitle() {
         return title;
