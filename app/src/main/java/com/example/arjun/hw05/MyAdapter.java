@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -22,19 +26,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PersonViewHolder> 
 
     List<Podcast> pod;
     final static int POD_CODE = 222;
+    Context callingContext;
 
-
-
-    MyAdapter(List<Podcast> pod) {
+    MyAdapter(Context context, List<Podcast> pod){
         this.pod = pod;
-        //context = context.getApplicationContext();
+        this.callingContext = context;
     }
 
     SimpleDateFormat format = new SimpleDateFormat("MMM dd,yyyy");
     Uri uri;
     Bitmap bmp;
-
-
 
     @Override
     public PersonViewHolder onCreateViewHolder(ViewGroup viewGroup, final int i) {
@@ -78,18 +79,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PersonViewHolder> 
 
 
         personViewHolder.date.setText(date);
-        String path = pod.get(i).getImg_url();
+        Picasso.with(callingContext).load(pod.get(i).getImg_url()).resize(100, 100).centerCrop().into(personViewHolder.img);
 
-
-//        Picasso.with(context.getApplicationContext()).load(path).into(personViewHolder.img);
-
-        Log.d("demo", "urls" + " " + path);
-
-        //new GetImageWithParams().execute(path);
-
-       // personViewHolder.img.setImageBitmap(bmp);
-
-
+        //personViewHolder.imgbtn.setImageResource(Integer.parseInt(pod.get(i).getMp3_url()));
     }
 
 
@@ -115,9 +107,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PersonViewHolder> 
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.Title_name);
             date = (TextView) itemView.findViewById(R.id.Date);
-            img = (ImageView) itemView.findViewById(R.id.imageView);
             imgbtn = (ImageButton) itemView.findViewById(R.id.imageButton);
-
+            img = (ImageView) itemView.findViewById(R.id.podcastImage);
         }
     }
 

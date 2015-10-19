@@ -67,7 +67,6 @@ ArrayList<Podcast> list = new ArrayList<>();
             GridLayoutManager glm = new GridLayoutManager(this, 2);
             rv.setLayoutManager(glm);
         }
-
     }
 
     public static Context getContext() {
@@ -124,13 +123,9 @@ ArrayList<Podcast> list = new ArrayList<>();
                 }
 
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (ProtocolException e) {
+            } catch (MalformedURLException | ProtocolException | SAXException e) {
                 e.printStackTrace();
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
                 e.printStackTrace();
             }
 
@@ -143,12 +138,11 @@ ArrayList<Podcast> list = new ArrayList<>();
             super.onPostExecute(result);
             if(result != null){
                 Log.d("demo", result.toString());
-
                 if(sw == true) {
                     RecyclerView rv = (RecyclerView)findViewById(R.id.rv);
                     LinearLayoutManager llm = new LinearLayoutManager(MainActivity.this);
                     rv.setLayoutManager(llm);
-                    MyAdapter adapter = new MyAdapter(result);
+                    MyAdapter adapter = new MyAdapter(MainActivity.this, result);
                     rv.setAdapter(adapter);
 
 
