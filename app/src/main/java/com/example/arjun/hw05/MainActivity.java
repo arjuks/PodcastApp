@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -16,6 +17,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import org.xml.sax.SAXException;
@@ -36,9 +42,11 @@ ArrayList<Podcast> list = new ArrayList<>();
     Boolean sw = true;
     static RecyclerView rv;
     static final String PODOBJ = "Podobj";
-
+    private ImageButton pauseButton;
+    private ProgressBar progressBar;
     public static Context mContext;
-
+    MyAdapter myAdapter;
+    GridAdapter gridAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,19 +61,49 @@ ArrayList<Podcast> list = new ArrayList<>();
             Toast.makeText(MainActivity.this, "Its Connected", Toast.LENGTH_SHORT).show();
             new GetPodcastAsync().execute("http://www.npr.org/rss/podcast.php?id=510298");
 
+            if(sw == true) {
+                LinearLayoutManager llm = new LinearLayoutManager(MainActivity.this);
+                rv.setLayoutManager(llm);
+            }
+            else {
+                GridLayoutManager glm = new GridLayoutManager(this, 2);
+                rv.setLayoutManager(glm);
+            }
+
+//            seekBar = (SeekBar) findViewById(R.id.mainSeekBar);
+//            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                    if (fromUser) {
+//                        if (player != null) {
+//                            if (progress <= seekBar.getSecondaryProgress()) {
+//                            } else {
+//                                seekBar.setProgress(progress);
+//                            }
+//
+//                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onStartTrackingTouch(SeekBar seekBar) {}
+//
+//                @Override
+//                public void onStopTrackingTouch(SeekBar seekBar) {}
+//            });
+
+
+//                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+//                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//                layoutParams.addRule(RelativeLayout.ABOVE, R.id.mainSeekBar);
+//                layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+//
+//                RelativeLayout mainRV = (RelativeLayout) findViewById(R.id.mainActRelativeLayout);
+//                pauseButton = new ImageButton(this);
+//                pauseButton.setImageDrawable(getDrawable(R.drawable.button_pause));
+//                pauseButton.setLayoutParams(layoutParams);
+//                mainRV.addView(pauseButton);
         } else {
             Toast.makeText(MainActivity.this, "Not Connected", Toast.LENGTH_SHORT).show();
-        }
-
-        if(sw == true) {
-
-            LinearLayoutManager llm = new LinearLayoutManager(MainActivity.this);
-            rv.setLayoutManager(llm);
-        }
-        else {
-
-            GridLayoutManager glm = new GridLayoutManager(this, 2);
-            rv.setLayoutManager(glm);
         }
     }
 
@@ -75,7 +113,6 @@ ArrayList<Podcast> list = new ArrayList<>();
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        //getMenuInflater().inflate(R.menu.switchmenu, menu);
         return true;
     }
 
@@ -83,25 +120,18 @@ ArrayList<Podcast> list = new ArrayList<>();
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-//        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Log.d("demo","settings clicked");
             return true;
         }
         if(id == R.id.switchView){
-            Log.d("demo", "switchView clicked");
-
             if(sw == true) {
                 sw = false;
-                new GetPodcastAsync().execute("http://www.npr.org/rss/podcast.php?id=510298");
             }
             else {
                 sw = true;
-                new GetPodcastAsync().execute("http://www.npr.org/rss/podcast.php?id=510298");
             }
-
+            new GetPodcastAsync().execute("http://www.npr.org/rss/podcast.php?id=510298");
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -121,15 +151,11 @@ ArrayList<Podcast> list = new ArrayList<>();
 
                     return PodcastUtil.PodcastParser.parsePodcast(in);//data obtained is sent for parsing
                 }
-
-
             } catch (MalformedURLException | ProtocolException | SAXException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
             return null;
         }
 
@@ -142,17 +168,14 @@ ArrayList<Podcast> list = new ArrayList<>();
                     RecyclerView rv = (RecyclerView)findViewById(R.id.rv);
                     LinearLayoutManager llm = new LinearLayoutManager(MainActivity.this);
                     rv.setLayoutManager(llm);
-                    MyAdapter adapter = new MyAdapter(MainActivity.this, result);
-                    rv.setAdapter(adapter);
-
-
-                }
-                else {
-                    RecyclerView rv = (RecyclerView)findViewById(R.id.rv);
+                    myAdapter = new MyAdapter(MainActivity.this, result);
+                    rv.setAdapter(myAdapter);
+                } else {
+                    RecyclerView rv = (RecyclerView) findViewById(R.id.rv);
                     GridLayoutManager glm = new GridLayoutManager(MainActivity.this, 2);
                     rv.setLayoutManager(glm);
-                    GridAdapter adapter = new GridAdapter(result);
-                    rv.setAdapter(adapter);
+                     gridAdapter = new GridAdapter(result, MainActivity.this);
+                    rv.setAdapter(gridAdapter);
                 }
                 progressDialog.dismiss();
             }

@@ -17,7 +17,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/Title_name"
-        android:hint="title"
         android:layout_toRightOf="@id/podcastImage"
         />
 
@@ -26,7 +25,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/Date"
-        android:hint="Date"
         android:layout_alignTop="@+id/posted_label"
         android:layout_toRightOf="@+id/posted_label"
         android:layout_toEndOf="@+id/posted_label" />

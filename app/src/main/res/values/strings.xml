@@ -3,7 +3,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="Posted">posted:</string>
-    <string name="SwitchView">switch</string>
+    <string name="SwitchView">Grid Display</string>
     <string name="title_activity_play">PlayActivity</string>
 
     <string name="hello_world">Hello world!</string>
