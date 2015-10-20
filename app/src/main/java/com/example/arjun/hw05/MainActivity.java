@@ -46,6 +46,7 @@ ArrayList<Podcast> list = new ArrayList<>();
     private ProgressBar progressBar;
     public static Context mContext;
     MyAdapter myAdapter;
+    private boolean adapterSet = false;
     GridAdapter gridAdapter;
 
     @Override
@@ -102,6 +103,17 @@ ArrayList<Podcast> list = new ArrayList<>();
 //                pauseButton.setImageDrawable(getDrawable(R.drawable.button_pause));
 //                pauseButton.setLayoutParams(layoutParams);
 //                mainRV.addView(pauseButton);
+            Log.d("demo", "before adapter set if clause");
+            if(adapterSet) {
+                Log.d("demo", "adapter set");
+                if(myAdapter.isPlayerPlaying()) {
+                    Log.d("demo", "player is playing");
+                } else {
+                    Log.d("demo", "player is not playing");
+                }
+            } else {
+                Log.d("demo", "adapter not set");
+            }
         } else {
             Toast.makeText(MainActivity.this, "Not Connected", Toast.LENGTH_SHORT).show();
         }
@@ -148,7 +160,6 @@ ArrayList<Podcast> list = new ArrayList<>();
                 int statusCode = con.getResponseCode();
                 if(statusCode == HttpURLConnection.HTTP_OK) {
                     InputStream in = con.getInputStream();
-
                     return PodcastUtil.PodcastParser.parsePodcast(in);//data obtained is sent for parsing
                 }
             } catch (MalformedURLException | ProtocolException | SAXException e) {
@@ -178,6 +189,7 @@ ArrayList<Podcast> list = new ArrayList<>();
                     rv.setAdapter(gridAdapter);
                 }
                 progressDialog.dismiss();
+                adapterSet = true;
             }
         }
 

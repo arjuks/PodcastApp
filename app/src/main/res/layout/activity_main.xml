@@ -14,18 +14,11 @@
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="150dp"
         />
-    <SeekBar
+    <ProgressBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/mainSeekBar"
+        android:id="@+id/mainProgressBar"
         android:layout_alignParentBottom="true"/>
-    <!--<ImageButton-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_above="@id/mainSeekBar"-->
-        <!--android:layout_centerInParent="true"-->
-        <!--android:id="@+id/mainPauseButton"-->
-        <!--android:src="@drawable/button_pause"/>-->
 </RelativeLayout>
